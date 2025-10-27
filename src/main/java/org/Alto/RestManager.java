@@ -175,7 +175,7 @@ public class RestManager {
         tables.forEach(t -> t.removeAll(t.getClients()));
 
         // how replicate this run
-        System.out.printf("%n%n>>> If you want to re-execute this exact iteration set run the following command:%njava.exe -Dfile.encoding=UTF-8 -classpath %s\\target\\classes org.Alto.Main %s %s%n",
+        System.out.printf("%n%n>>> If you want to re-execute this exact iteration set run the following command:%njava -Dfile.encoding=UTF-8 -classpath %s\\target\\classes org.Alto.Main %s %s%n",
             System.getProperty("user.dir"),
             tables.stream().map(Table::serialize).collect(Collectors.joining(", ", "\"", "\"")),
             arrivalsHistory.stream()
