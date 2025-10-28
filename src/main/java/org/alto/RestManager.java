@@ -148,7 +148,7 @@ public class RestManager {
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Press ENTER to iterate; any key + ENTER to stop;");
-        String readString; // = scanner.nextLine(); // it's not redundant :)
+        String readString = scanner.nextLine(); // it's not redundant :)
 
         List<List<ClientsGroup>> arrivalsHistory = new ArrayList<>();
         int iter = 0;
@@ -174,14 +174,14 @@ public class RestManager {
 
             this.markPassageOfTime();
 
-            //readString = scanner.nextLine();
-        } while(iter < 500); // readString.isEmpty());
+            readString = scanner.nextLine();
+        } while(readString.isEmpty());
         scanner.close();
 
         tables.forEach(t -> t.removeAll(t.getClients()));
 
         // how replicate this run
-        System.out.printf("%n%n>>> If you want to re-execute this exact iteration set run the following command:%njava -Dfile.encoding=UTF-8 -classpath %s\\target\\classes org.Alto.Main %s %s%n",
+        System.out.printf("%n%n>>> If you want to re-execute this exact iteration set run the following command:%njava -Dfile.encoding=UTF-8 -classpath %s\\target\\classes org.alto.Main %s %s%n",
             System.getProperty("user.dir"),
             tables.stream().map(Table::serialize).collect(Collectors.joining(", ", "\"", "\"")),
             arrivalsHistory.stream()
