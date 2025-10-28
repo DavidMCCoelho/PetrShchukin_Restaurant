@@ -1,7 +1,5 @@
-package org.Alto;
+package org.alto;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,8 +31,9 @@ public class ClientsGroup {
         this.originalIterations =  iterationsRemaining;
     }
 
+    private final Pattern p = Pattern.compile("\\{(\\d+), (\\d+), (\\d+)}");
+    
     public ClientsGroup(String serializedClientGroups) {
-        Pattern p = Pattern.compile("\\{([0-9]+), ([0-9]+), ([0-9]+)}");
         Matcher m = p.matcher(serializedClientGroups);
         if (!m.find())
             throw new RuntimeException(String.format("An error occurred while processing '%s'!", serializedClientGroups));

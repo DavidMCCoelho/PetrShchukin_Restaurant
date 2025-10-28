@@ -1,4 +1,4 @@
-package org.Alto;
+package org.alto;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -148,7 +148,7 @@ public class RestManager {
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Press ENTER to iterate; any key + ENTER to stop;");
-        String readString = scanner.nextLine(); // it's not redundant :)
+        String readString; // = scanner.nextLine(); // it's not redundant :)
 
         List<List<ClientsGroup>> arrivalsHistory = new ArrayList<>();
         int iter = 0;
@@ -157,9 +157,14 @@ public class RestManager {
             System.out.println("ClientGroups who finished meal: " + Arrays.toString(cleanupTables().toArray()));
             System.out.println("ClientGroups who abandoned queue: " + Arrays.toString(cleanupWaitingClientGroups().toArray()));
 
-            List<ClientsGroup> arrivingCGs = null == arrivalsParam ? generateRandomClientGroups() : ( !arrivalsParam.isEmpty() ? arrivalsParam.remove(0) : null);
-            if (null == arrivingCGs)
-                break;
+            List<ClientsGroup> arrivingCGs;
+            if (null == arrivalsParam)
+            	arrivingCGs = generateRandomClientGroups();
+            else if(!arrivalsParam.isEmpty())
+            	arrivingCGs = arrivalsParam.remove(0);
+            else
+            	break;
+            
             arrivalsHistory.add(arrivingCGs);
             arrivingCGs.forEach(this::onArrive);
             this.seatGroups();
@@ -169,8 +174,9 @@ public class RestManager {
 
             this.markPassageOfTime();
 
-            readString = scanner.nextLine();
-        } while(readString.isEmpty());
+            //readString = scanner.nextLine();
+        } while(iter < 500); // readString.isEmpty());
+        scanner.close();
 
         tables.forEach(t -> t.removeAll(t.getClients()));
 

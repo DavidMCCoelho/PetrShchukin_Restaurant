@@ -1,4 +1,4 @@
-package org.Alto;
+package org.alto;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -19,8 +19,10 @@ public class Table { // number of chairs
         this.clients = new ArrayList<>();
     }
 
+    
+    private final Pattern p = Pattern.compile("\\{(\\d+), (\\d+)}"); 
+    
     public Table(String serializedTable) {
-        Pattern p = Pattern.compile("\\{([0-9]+), ([0-9]+)}");
         Matcher m = p.matcher(serializedTable);
         if (!m.find())
             throw new RuntimeException(String.format("An error occurred while processing '%s'!", serializedTable));
@@ -48,7 +50,19 @@ public class Table { // number of chairs
     }
 
     public int occupiedSeats() {
-        return clients.stream().map(ClientsGroup::getGroupSize).reduce(0, Integer::sum);
+    	
+    	// Visual VM experiments
+        return clients.stream().map(ClientsGroup::getGroupSize)
+        		.mapToInt(Integer::intValue).sum();
+        		//.reduce(0, Integer::sum);
+        
+    	/*
+    	int ret = 0;
+    	for (ClientsGroup c : clients) {
+    		ret += c.getGroupSize();
+    	}
+    	return ret;
+    	//*/
     }
 
     public int freeSeats() {
